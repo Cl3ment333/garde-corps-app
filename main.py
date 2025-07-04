@@ -315,7 +315,7 @@ async def draw_pdf_plan(data: FinalPlanData):
         raise HTTPException(status_code=500, detail=f"Erreur lors du dessin: {str(e)}")
 
 # --- SERVIR LE FRONTEND ---
-app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
+app.mount("/static", StaticFiles(directory="frontend"), name="static")
 
 @app.get("/")
 async def read_root():
