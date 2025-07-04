@@ -118,7 +118,6 @@ def draw_annotation(pdf: FPDF, x, y, title, detail, color, align='L'):
 def dessiner_page_1(pdf: FPDF, data: Dict[str, Any]):
     pdf.add_page()
     
-    # MODIFICATION: Ajout de la vue d'ensemble
     pdf.set_font('Arial', 'B', 12)
     pdf.cell(0, 10, "1. Vue d'Ensemble", 0, 1, 'L')
     pdf.ln(2)
@@ -127,7 +126,7 @@ def dessiner_page_1(pdf: FPDF, data: Dict[str, Any]):
     if total_project_length > 0:
         margin = 20
         drawing_width = pdf.w - 2 * margin
-        overview_height = 20 # Hauteur fixe pour la vue d'ensemble
+        overview_height = 20
         scale = drawing_width / total_project_length
         
         start_x = margin
@@ -144,8 +143,6 @@ def dessiner_page_1(pdf: FPDF, data: Dict[str, Any]):
                     pdf.rect(start_x + cursor_x * scale, start_y - overview_height, epaisseur * scale, overview_height, 'D')
                     cursor_x += epaisseur
                 elif item_type == 'section':
-                    # Trouver la longueur libre correspondante
-                    # C'est une approximation, on prend la première section du morceau pour la simplicité de la vue d'ensemble
                     longueur_libre = morceau['sections_details'][0]['longueur_libre']
                     pdf.set_draw_color(*COLORS['lisse'])
                     pdf.rect(start_x + cursor_x * scale, start_y - overview_height, longueur_libre * scale, overview_height, 'D')
@@ -154,7 +151,6 @@ def dessiner_page_1(pdf: FPDF, data: Dict[str, Any]):
         draw_horizontal_dim(pdf, start_x, start_y + 5, total_project_length * scale, f"Longueur Totale: {total_project_length} mm")
         pdf.ln(15)
 
-    # --- Nomenclature ---
     pdf.set_font('Arial', 'B', 12)
     pdf.cell(0, 10, '2. Nomenclature Globale', 0, 1, 'L')
     pdf.ln(5)
@@ -174,7 +170,6 @@ def dessiner_page_1(pdf: FPDF, data: Dict[str, Any]):
         pdf.ln()
 
 def dessiner_page_platine(pdf: FPDF, platine: Dict[str, Any], poteau_dims: str):
-    # ... (inchangé)
     pdf.add_page()
     pdf.set_font('Arial', 'B', 12)
     pdf.cell(0, 10, 'Détail de la Platine de Fixation', 0, 1, 'L')
@@ -214,7 +209,6 @@ def dessiner_page_platine(pdf: FPDF, platine: Dict[str, Any], poteau_dims: str):
     draw_vertical_dim(pdf, center_x + p_l / 2 + 5, pdf.h - 40 + p_e, p_e, str(p_e), right_side=True)
 
 def dessiner_page_morceau(pdf: FPDF, morceau: Dict[str, Any], all_data: Dict[str, Any], repetition: int):
-    # ... (inchangé)
     pdf.add_page()
     pdf.set_font('Arial', 'B', 12)
     pdf.cell(0, 10, f"Détail du Morceau (longueur {morceau['longueur_totale']} mm)", 0, 1, 'C')
